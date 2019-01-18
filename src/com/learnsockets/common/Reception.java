@@ -30,7 +30,8 @@ public class Reception implements Runnable, SocketNotifier {
 				msg = in.readLine();
 				if (msg != null) {
 					if (sl != null) {
-						sl.receiveFromSocket(msg);
+						ChatMessage message = new ChatMessage(msg);						
+						sl.receiveFromSocket(message);
 					}
 					msg = null;
 				}				

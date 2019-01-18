@@ -4,17 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import com.learnsockets.common.ChatMessage;
 import com.learnsockets.server.Serveur;
 import com.learnsockets.tools.AdressageTool;
+import com.learnsockets.tools.FileSender;
 import com.learnsockets.tools.Observer;
 import com.learnsockets.views.ChatZone;
 import com.learnsockets.views.JoinServerDialog;
@@ -36,6 +37,9 @@ public class MainFenetre extends JFrame implements Observer {
 	private boolean serverMode = true;
 		
 	private MySocket socket = null;
+	
+	private JFileChooser fileChooser = new JFileChooser();
+	private File fileChoosen;
 	
 	public MainFenetre() {
 		this.setName("Chat");
@@ -117,6 +121,18 @@ public class MainFenetre extends JFrame implements Observer {
 					}					
 				}
 			}
+		});		
+
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		cz.addActionListenerToSendFile(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				int returnVal = fileChooser.showOpenDialog(cz);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					fileChoosen = fileChooser.getSelectedFile();
+					FileSender sender = new FileSender(fileChoosen, socket.getSocket());
+					sender.sendFile();
+				}				
+			};
 		});
 				
 		cz.setContacts("Bernard;Alain;Gérard");
@@ -165,13 +181,13 @@ public class MainFenetre extends JFrame implements Observer {
 		}
 	}
 		
-	public void update(String str) {
+	public void update(ChatMessage cm) {
 		
 //		SwingUtilities.invokeLater(new Runnable() {			
 //			public void run() {		
 			
-			ChatMessage cm = new ChatMessage();
-			cm.recoverFromString(str);
+//			ChatMessage cm = new ChatMessage();
+//			cm.recoverFromString(str);
 			
 			System.out.println("---");
 			System.out.println("getContent : " + cm.getContent());

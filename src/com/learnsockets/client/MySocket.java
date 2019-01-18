@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.learnsockets.common.ChatMessage;
 import com.learnsockets.common.Reception;
 import com.learnsockets.common.SocketListener;
 import com.learnsockets.tools.Observable;
@@ -78,13 +79,16 @@ public class MySocket implements Observable, Runnable, SocketListener {
 		}
 	}
 	
-	public void receiveFromSocket(String str) {				
-		notifyObservers(str);		
+	public void receiveFromSocket(ChatMessage message) {				
+		notifyObservers(message);		
 	}
 	
 	public void sendMessage(String str) {		
 		if (out != null) {
-			out.println(str);
+			ChatMessage message = new ChatMessage();
+			message.setCanal("discussion");
+			message.setContent(str);
+			out.println(message.toString());
 			out.flush();			
 		}
 	}
@@ -97,9 +101,9 @@ public class MySocket implements Observable, Runnable, SocketListener {
 		observers = new ArrayList<Observer>();
 	}
 	
-	public void notifyObservers(String str) {
+	public void notifyObservers(ChatMessage message) {
 		for (Observer obs : observers) {
-			obs.update(str);
+			obs.update(message);
 		}
 	}
 	

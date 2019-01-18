@@ -8,6 +8,10 @@ public class ChatMessage {
 	
 	public ChatMessage() {}
 	
+	public ChatMessage(String messageAsString) {
+		recoverFromString(messageAsString);
+	}
+	
 	public ChatMessage(String c1, String t, String c2, String k) {		
 		content = c1;		
 		to = t;
@@ -19,8 +23,16 @@ public class ChatMessage {
 		key = k;
 	}
 	
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
 	public String getContent() {
 		return content;
+	}
+	
+	public void setCanal(String canal) {
+		this.canal = canal;
 	}
 	
 	public String getCanal() {

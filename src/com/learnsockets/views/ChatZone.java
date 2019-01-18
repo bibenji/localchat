@@ -7,12 +7,14 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -30,6 +32,7 @@ public class ChatZone extends JPanel {
 	private JPanel split;
 	private boolean hasSplit = false;
 	private JButton send = new JButton("Send");
+	private JButton sendFile = new JButton("File");
 	
 	private String serverIp;
 	private int serverPort;
@@ -46,7 +49,7 @@ public class ChatZone extends JPanel {
 		initComponent();
 	}
 	
-	public void initComponent() {	
+	public void initComponent() {
 		chat.setLayout(new BorderLayout());
 		
 		chatMessages.setLayout(new BoxLayout(chatMessages, BoxLayout.PAGE_AXIS));		
@@ -56,11 +59,21 @@ public class ChatZone extends JPanel {
 		JPanel bottomPane = new JPanel();
 		bottomPane.setLayout(new BorderLayout());		
 		newMessage = new JTextField("New message");
-		newMessage.setPreferredSize(new Dimension(260, 40));		
+		newMessage.setPreferredSize(new Dimension(160, 40));		
 //		newMessage.setAlignmentX(JTextField.CENTER_ALIGNMENT); // marche pas !?		
-		bottomPane.add(newMessage, BorderLayout.CENTER);		
+		bottomPane.add(newMessage, BorderLayout.CENTER);
+		
 		send.setPreferredSize(new Dimension(100, 40));		
-		bottomPane.add(send, BorderLayout.EAST);
+		sendFile.setPreferredSize(new Dimension(100, 40));
+		
+		JPanel buttonsPane = new JPanel();
+		buttonsPane.setLayout(new BorderLayout());
+		buttonsPane.add(send, BorderLayout.WEST);
+		buttonsPane.add(sendFile, BorderLayout.EAST);
+		bottomPane.add(buttonsPane, BorderLayout.EAST);
+		
+//		bottomPane.add(sendFile, BorderLayout.EAST);
+		
 		chat.add(bottomPane, BorderLayout.SOUTH);			
 				
 		setContacts("Benjamin;Toto;Vincent");
@@ -178,8 +191,8 @@ public class ChatZone extends JPanel {
 		send.addActionListener(ac);
 	}
 	
-	public void addKeyListenerToChatZone(KeyListener kl) {
-		this.addKeyListener(kl);		
+	public void addActionListenerToSendFile(ActionListener ac) {
+		sendFile.addActionListener(ac);
 	}
 	
 	public String getNewMessage() {

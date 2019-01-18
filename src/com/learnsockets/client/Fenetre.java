@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import com.learnsockets.common.ChatMessage;
 import com.learnsockets.tools.Observer;
 
 public class Fenetre extends JFrame implements Observer {
@@ -109,7 +109,8 @@ public class Fenetre extends JFrame implements Observer {
 		}
 	}
 	
-	public void update(String str) {
+	public void update(ChatMessage message) {
+		String str = message.toString();
 		System.out.println("update in Fenetre, str : " + str);
 		
 		
